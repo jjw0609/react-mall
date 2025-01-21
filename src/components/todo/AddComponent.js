@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+import ResultModal from "../common/ResultModal";
+import {postAdd} from "../../api/todoApi";
+import useCustomMove from "../../hooks/useCustomMove";
 
 
 const initState = {
@@ -10,6 +13,8 @@ const initState = {
 function AddComponent(props) {
 
     const [todo, setTodo] = useState({...initState});
+    const [result, setResult] = useState(null);
+    const {moveToList} = useCustomMove();
 
     const handleChangeTodo = (e) => {
 
@@ -19,7 +24,16 @@ function AddComponent(props) {
     }
 
     const handleClickAdd = () => {
-        console.log(todo);
+        postAdd(todo).then(result => {
+            // {TNO: 104}
+            setResult(result.TNO);
+            setTodo({...initState});
+        })
+    }
+
+    const closeModal = () => {
+        setResult(null);
+        moveToList();
     }
 
     return (
@@ -52,13 +66,18 @@ function AddComponent(props) {
             </div>
 
             <div className="flex justify-end">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                    <div className="w-1/5 p-6 text-right font-bold">DUEDATE</div>
+                <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
                     <button type="button" className="rounded p-4 w-36 bg-blue-500 text-xl text-white"
                             onClick={handleClickAdd}>
                         ADD</button>
                 </div>
             </div>
+
+            {result ?
+                <ResultModal title={'Add Result'} content={`New ${result} Added`} callbackFn={closeModal} />
+                :
+                <></>
+            }
         </div>
     );
 }
