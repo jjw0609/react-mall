@@ -24,7 +24,7 @@ function ReadComponent({tno}) {
             setTodo(data);
         })
 
-    }, [tno])
+    }, [tno]);
 
 
     return (
