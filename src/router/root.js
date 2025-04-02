@@ -4,7 +4,7 @@ import todoRouter from "./todoRouter";
 import productsRouter from "./productsRouter";
 
 const Loading = <div className={'bg-red-700'}>Loading....</div>;
-const Main = lazy(() => import('../pages/MainPage'))
+const Main = lazy(() => import('../pages/MainPage'));
 
 const About = lazy(() => import('../pages/AboutPage'));
 
